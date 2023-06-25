@@ -17,3 +17,11 @@ const divide = function (x, y) {
 const operate = function (func, x, y) {
     return func(x, y);
 }
+
+const buttons = document.querySelectorAll('.button');
+buttons.forEach(
+    button => button.addEventListener('click', (e) => {
+        const display = document.querySelector('.display');
+        display.textContent += e.target.textContent;
+    })
+)
