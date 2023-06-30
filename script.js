@@ -84,6 +84,7 @@ const opPress = function(target) {
             secondNum = '';
             operation = target.classList[2];
             display(firstNum, '.num');
+            display(target.textContent, '.op');
         }
     }
     // CLICK "=" BUTTON
