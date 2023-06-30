@@ -11,13 +11,13 @@ const divide = function (x, y) {
     return x / y;
 }
 const operate = function (operation, x, y) {
-    // since funcs are in a closure, need to jerryrig them hahaha
+    // since funcs are in a closure, need to jerryrig them into window hahaha
     window.add = add;
     window.subtract = subtract;
     window.multiply = multiply;
     window.divide = divide;
+    // DECIMAL HANDLING
     return (Math.round((window[operation](+x, +y) + Number.EPSILON) * 10000) / 10000);
-    // return window[operation](+x, +y);
 }
 
 const display = function(text, location) {
@@ -29,18 +29,35 @@ const display = function(text, location) {
     document.querySelector('.display ' + '.top').textContent = `${firstNum} ${sign} ${secondNum}`;
 }
 
+const containsDecimal = function(num) {
+    return (num + '').includes('.');
+}
 const numPress = function(target) {
-    if (operation === '') {
-        if (typeof firstNum !== 'number') {
-            firstNum = (parseFloat(firstNum)) ? firstNum + target.textContent : target.textContent;
+    if (!target.classList.contains('dot')) {
+        if (operation === '') {
+            // HANDLING AFTER CLICKING "=" (RESULTS TO typeof number)
+            if (typeof firstNum !== 'number') {
+                firstNum = firstNum + target.textContent;
+            }
+            else {firstNum = target.textContent}
+            display(firstNum, '.num');
         }
-        else {firstNum = target.textContent}
-        display(firstNum, '.num');
+        else {
+            secondNum += target.textContent;
+            display(secondNum, '.num');
+        };
     }
+    // DECIMAL HANDLING
     else {
-        secondNum += target.textContent;
-        display(secondNum, '.num');
-    };
+        if (operation === '' && !containsDecimal(firstNum)) {
+            firstNum += (firstNum === '') ? '0' + target.textContent : target.textContent;
+            display(firstNum, '.num');
+        }
+        else if (operation !== '' && !containsDecimal(secondNum)) {
+            secondNum += (secondNum === '') ? '0' + target.textContent : target.textContent;
+            display(secondNum, '.num');
+        }
+    }
 }
 
 const opPress = function(target) {
@@ -64,6 +81,7 @@ const opPress = function(target) {
             display(firstNum, '.num');
         }
     }
+    // CLICK "=" BUTTON
     // considering only secondNum since secondNum = (firstNum && operation)
     else if (secondNum) {
         firstNum = operate(operation, firstNum, secondNum);
