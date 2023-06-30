@@ -20,14 +20,20 @@ const operate = function (operation, x, y) {
 }
 
 const display = function(text, location) {
+    let signObj = {'add':'+', 'subtract':'-', 'multiply':'*', 'divide':'/'};
+    let sign = (signObj[operation]) ? signObj[operation] : '';
+
     // text = (!isNaN(text) && !isNaN(parseFloat(text))) ? parseFloat(text) : text;
     document.querySelector('.display ' + location).textContent = text;
-    document.querySelector('.display ' + '.top').textContent = `${firstNum} ${operation} ${secondNum}`;
+    document.querySelector('.display ' + '.top').textContent = `${firstNum} ${sign} ${secondNum}`;
 }
 
 const numPress = function(target) {
     if (operation === '') {
-        firstNum = (parseFloat(firstNum)) ? firstNum + target.textContent : target.textContent;
+        if (typeof firstNum !== 'number') {
+            firstNum = (parseFloat(firstNum)) ? firstNum + target.textContent : target.textContent;
+        }
+        else {firstNum = target.textContent}
         display(firstNum, '.num');
     }
     else {
@@ -40,8 +46,7 @@ const opPress = function(target) {
     if (!target.classList.contains('eval')) {
         // !num1 !num2, num1=0, define op;
         if (!firstNum && !secondNum) {
-            // assign string 0 as to not eval falsy 0
-            firstNum = '0'; 
+            firstNum = 0; 
             operation = target.classList[2];
             display(target.textContent, '.op');
         }
@@ -88,7 +93,7 @@ const funcPress = function(target) {
     }
     else if (target.classList.contains('del')) {
         if (!secondNum) {
-            firstNum = Math.floor(firstNum / 1e1);
+            secondNum = Math.floor(secondNum / 1e1);
             display(firstNum, '.num');
         }
         else {
@@ -119,7 +124,6 @@ const keypress = function (e) {
 let firstNum = '';
 let secondNum = '';
 let operation = '';
-let opSign = '';
 
 const buttons = document.querySelectorAll('.btn');
 buttons.forEach(
