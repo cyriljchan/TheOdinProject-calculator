@@ -16,6 +16,11 @@ const operate = function (operation, x, y) {
     window.subtract = subtract;
     window.multiply = multiply;
     window.divide = divide;
+    // DIV BY 0 HANDLING
+    if (operation === 'divide' && y === '0') {
+        alert('ERR: DIV BY 0');
+        return 0;
+    };
     // DECIMAL HANDLING
     return (Math.round((window[operation](+x, +y) + Number.EPSILON) * 10000) / 10000);
 }
