@@ -16,7 +16,8 @@ const operate = function (operation, x, y) {
     window.subtract = subtract;
     window.multiply = multiply;
     window.divide = divide;
-    return window[operation](+x, +y);
+    return (Math.round((window[operation](+x, +y) + Number.EPSILON) * 10000) / 10000);
+    // return window[operation](+x, +y);
 }
 
 const display = function(text, location) {
