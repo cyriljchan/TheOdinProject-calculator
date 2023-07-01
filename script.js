@@ -117,12 +117,16 @@ const funcPress = function(target) {
         }
     }
     else if (target.classList.contains('del')) {
-        if (!secondNum) {
-            secondNum = Math.floor(secondNum / 1e1);
+        if (!operation && !secondNum) {
+            firstNum = firstNum.toString().slice(0, -1);
             display(firstNum, '.num');
         }
+        else if (!secondNum){
+            operation = '';
+            display(operation, '.op');
+        }
         else {
-            secondNum = Math.floor(secondNum / 1e1);
+            secondNum = secondNum.toString().slice(0, -1);
             display(secondNum, '.num');
         }
 
