@@ -1,3 +1,7 @@
+::-webkit-scrollbar {
+    display: none;
+  }
+
 .btn:active {
     background-image: linear-gradient(rgb(0 0 0/40%) 0 0);
 }
@@ -35,7 +39,8 @@
     font-size: xx-large;
 }
 
-.display .top{
+.display .top{   
+    overflow: auto;
     text-align: end;
     font-size: x-large;
 }
@@ -45,6 +50,10 @@
     justify-content: space-between;
     align-items: flex-end;
     flex-grow: 1;
+}
+
+.display .num {
+    overflow: auto;    
 }
 
 .buttons{
